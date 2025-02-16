@@ -6,15 +6,7 @@
         xmlns:local="clr-namespace:OOPaint"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="62*"/>
-            <RowDefinition Height="83*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="171*"/>
-            <ColumnDefinition Width="629*"/>
-        </Grid.ColumnDefinitions>
-
-    </Grid>
+    <Menu>
+        <Button HorizontalAlignment="Left" VerticalAlignment="Top"/>
+    </Menu>
 </Window>
