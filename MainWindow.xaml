@@ -8,5 +8,6 @@
         Title="MainWindow" Height="450" Width="800">
     <Menu>
         <Button HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Canvas Height="223" Width="224"/>
     </Menu>
 </Window>
