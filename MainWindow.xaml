@@ -25,11 +25,17 @@
                     <Setter Property="Margin" Value="0,3,10,0"/>
                 </Style>
             </StackPanel.Resources>
-            <RadioButton x:Name="RBSquare" Content="Квадрат" Click="RBSquare_Click"/>
-            <RadioButton x:Name="RBTriangle" Content="Треугольник" Click="RBTriangle_Click"/>
-            <RadioButton x:Name="RBCircle" Content="Круг" Click="RBCircle_Click"/>
-            <RadioButton x:Name="RBLine" Content="Линия" Click="RBLine_Click"/>
-            <ComboBox Width="60" Height="23" SelectedIndex="0" SelectionChanged="ComboBox_SelectionChanged" >
+            <Button x:Name="BtnSave" Width="65" Content="Сохранить" Margin="0,0,10,0" Click="BtnSave_Click"/>
+            <Button x:Name="BtnOpen" Width="65" Content="Открыть" Margin="0,0,10,0" Click="BtnOpen_Click"/>
+            <Label Content="Инструмент" FontSize="13" />
+            <ComboBox x:Name="CmbBoxTool" Width="80" Height="23" SelectedIndex="0" SelectionChanged="CmbBoxTool_SelectionChanged" Margin="0,0,10,0">
+                <ListBoxItem Content="Квадрат"/>
+                <ListBoxItem Content="Линия"/>
+                <ListBoxItem Content="Эллипс"/>
+                <ListBoxItem Content="Треугольник"/>
+            </ComboBox>
+            <Label Content="Толщина пера" FontSize="13" />
+            <ComboBox Width="60" Height="23" SelectedIndex="0" SelectionChanged="ComboBox_SelectionChanged" Margin="0,0,10,0">
                 <ListBoxItem Content="0"/>
                 <ListBoxItem Content="1"/>
                 <ListBoxItem Content="2"/>
@@ -41,9 +47,9 @@
                 <ListBoxItem Content="8"/>
                 <ListBoxItem Content="9"/>
             </ComboBox>
-            <Label Content="Толщина пера" FontSize="11" />
             <Button Width="75" Content="Цвет пера" Margin="0,0,10,0" x:Name="btnPickPenColor" Click="btnPickPenColor_Click"/>
-            <Button Width="80" Content="Цвет заливки" x:Name="btnPickBrushColor" Click="btnPickBrushColor_Click"/>
+            <Button Width="80" Content="Цвет заливки" Margin="0,0,10,0" x:Name="btnPickBrushColor" Click="btnPickBrushColor_Click"/>
+            <Button x:Name="BtnCancel" Width="60" Content="Отмена" Margin="0,0,10,0" Click="BtnCancel_Click"/>
         </StackPanel>
 
         <!-- MyCanvas будет занимать оставшееся пространство -->

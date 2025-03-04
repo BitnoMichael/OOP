@@ -57,6 +57,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\Constants.cs" />
+    <Compile Include="Classes\DrawableShapeFileHandler.cs" />
+    <Compile Include="Classes\ShapeFactory.cs" />
+    <Compile Include="Shapes\MyEllipse.cs" />
+    <Compile Include="Shapes\MyLine.cs" />
+    <Compile Include="Shapes\DrawableShape.cs" />
+    <Compile Include="Shapes\MyRectangle.cs" />
+    <Compile Include="Shapes\MyTriangle.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -96,6 +104,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

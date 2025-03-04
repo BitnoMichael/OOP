@@ -1,8 +1,11 @@
 ﻿using OOPaint;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -57,98 +60,10 @@ Shapes(System.Windows.Shapes)
 namespace OOPaint
 {    public partial class MainWindow : Window
     {
-        public enum Tool { TOOL_NONE, TOOL_SQUARE, TOOL_LINE, TOOL_ELLIPSE, TOOL_TRIANGLE };
         private Tool curTool = Tool.TOOL_NONE;
-        public class ShapeFactory
-        {
-            public static Shape createShape(Tool curTool, Color brushColor, Color penColor, double penWidth, Point curPoint)
-            {
-                Shape shape;
-
-                switch (curTool)
-                {
-                    case Tool.TOOL_SQUARE:
-                        shape = new Rectangle
-                        {
-                            Fill = new SolidColorBrush(brushColor),
-                            Stroke = new SolidColorBrush(penColor),
-                            StrokeThickness = penWidth,
-                            Width = 0, // Ширина установлена в 0
-                            Height = 0 // Высота установлена в 0
-                        };
-                        Canvas.SetLeft(shape, curPoint.X);
-                        Canvas.SetTop(shape, curPoint.Y);
-                        break;
-
-                    case Tool.TOOL_LINE:
-                        shape = new Line
-                        {
-                            Stroke = new SolidColorBrush(penColor),
-                            StrokeThickness = penWidth,
-                            X1 = curPoint.X, // Начальная точка
-                            Y1 = curPoint.Y,
-                            X2 = curPoint.X + 0, // Конечная точка (0, чтобы линия была невидима)
-                            Y2 = curPoint.Y + 0
-                        };
-                        break;
-
-                    case Tool.TOOL_ELLIPSE:
-                        shape = new Ellipse
-                        {
-                            Fill = new SolidColorBrush(brushColor),
-                            Stroke = new SolidColorBrush(penColor),
-                            StrokeThickness = penWidth,
-                            Width = 0, // Ширина установлена в 0
-                            Height = 0 // Высота установлена в 0
-                        };
-                        Canvas.SetLeft(shape, curPoint.X);
-                        Canvas.SetTop(shape, curPoint.Y);
-                        break;
-
-                    case Tool.TOOL_TRIANGLE:
-                        shape = new Polygon
-                        {
-                            Fill = new SolidColorBrush(brushColor),
-                            Stroke = new SolidColorBrush(penColor),
-                            StrokeThickness = penWidth,
-                            Points = new PointCollection
-                            {
-                                new Point(curPoint.X, curPoint.Y), // Вершина 1
-                                new Point(curPoint.X + 0, curPoint.Y + 0), // Вершина 2
-                                new Point(curPoint.X + 0, curPoint.Y + 0) // Вершина 3
-                            }
-                        };
-                        break;
-
-                    default:
-                        return null;
-                }
-                return shape;
-            }
-        }
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void RBLine_Click(object sender, RoutedEventArgs e)
-        {
-            curTool = Tool.TOOL_LINE;
-        }
-
-        private void RBCircle_Click(object sender, RoutedEventArgs e)
-        {
-            curTool = Tool.TOOL_ELLIPSE;
-        }
-
-        private void RBTriangle_Click(object sender, RoutedEventArgs e)
-        {
-            curTool = Tool.TOOL_TRIANGLE;
-        }
-
-        private void RBSquare_Click(object sender, RoutedEventArgs e)
-        {
-            curTool = Tool.TOOL_SQUARE;
         }
 
         private void MyCanvas_MouseDown(object sender, MouseButtonEventArgs e)
@@ -166,14 +81,14 @@ namespace OOPaint
             }
             drawingCanvas.startPoint = e.GetPosition(drawingCanvas);
             drawingCanvas.IsDrawing = true;
-            drawingCanvas.CurShape = ShapeFactory.createShape(
+            drawingCanvas.CurShape = ShapeFactory.СreateDrawableShape(
                 this.curTool, 
                 drawingCanvas.BrushColor, 
                 drawingCanvas.PenColor, 
                 drawingCanvas.PenWidth, 
                 e.GetPosition(drawingCanvas)
             );
-            drawingCanvas.Children.Add(drawingCanvas.CurShape);
+            drawingCanvas.AddShape(drawingCanvas.CurShape);
         }
         private void MyCanvas_MouseMove(object sender, MouseEventArgs e)
         {
@@ -210,6 +125,49 @@ namespace OOPaint
                 return;
             ComboBox listBox = sender as ComboBox;
             this.MyCanvas.PenWidth = listBox.SelectedIndex;
+        }
+
+        private void CmbBoxTool_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender.GetType() != typeof(ComboBox)) 
+                return;
+            ComboBox comboBox = sender as ComboBox;
+            curTool = (Tool)comboBox.SelectedIndex;
+        }
+
+        private void BtnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.MyCanvas.Undo();
+        }
+
+        private void BtnSave_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog
+            {
+                Filter = "Shapes files (*.shapes)|*.shapes",
+                DefaultExt = ".shapes",
+                AddExtension = true
+            };
+            if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                DrawableShapeFileHandler.SaveCollection(this.MyCanvas.Model, saveFileDialog.FileName);
+            }
+        }
+
+        private void BtnOpen_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog
+            {
+                Filter = "(*.shapes)|*.shapes",
+                DefaultExt = ".shapes",
+                AddExtension = true
+            };
+
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                DrawableShapeFileHandler.LoadCollection(this.MyCanvas.Model, openFileDialog.FileName);
+                this.MyCanvas.ValidateView();
+            }
         }
     }
 }
