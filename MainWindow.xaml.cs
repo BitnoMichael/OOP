@@ -1,10 +1,12 @@
 ﻿using OOPaint;
+using OOPaint.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static OOPaint.ModelConstants;
 
 /*
 Shapes(System.Windows.Shapes)
@@ -58,116 +61,86 @@ Shapes(System.Windows.Shapes)
 */
 
 namespace OOPaint
-{    public partial class MainWindow : Window
+{
+    public partial class MainWindow : Window
     {
-        private Tool curTool = Tool.TOOL_NONE;
         public MainWindow()
         {
             InitializeComponent();
+            controller = new MainController(this);
         }
-
+        MainController controller;
         private void MyCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton != MouseButton.Left)
+            if (e.ChangedButton != MouseButton.Left || controller == null)
                 return;
-            if (sender.GetType() != typeof(DrawingCanvas))
-                return;
+            MyCanvas drawingCanvas = (MyCanvas)sender;
+            var curPoint = e.GetPosition(drawingCanvas);
 
-            DrawingCanvas drawingCanvas = (DrawingCanvas)sender;
-            if (drawingCanvas.IsDrawing || curTool == Tool.TOOL_NONE)
+            if (drawingCanvas.IsDrawing)
             {
-                drawingCanvas.IsDrawing = false;
-                return;
+                controller.StopDraw(curPoint);
             }
-            drawingCanvas.startPoint = e.GetPosition(drawingCanvas);
-            drawingCanvas.IsDrawing = true;
-            drawingCanvas.CurShape = ShapeFactory.СreateDrawableShape(
-                this.curTool, 
-                drawingCanvas.BrushColor, 
-                drawingCanvas.PenColor, 
-                drawingCanvas.PenWidth, 
-                e.GetPosition(drawingCanvas)
-            );
-            drawingCanvas.AddShape(drawingCanvas.CurShape);
+            else
+            {
+                controller.StartDraw(curPoint);
+            }
         }
+
         private void MyCanvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if (sender.GetType() != typeof(DrawingCanvas))
-                return;
-
-            DrawingCanvas drawingCanvas = (DrawingCanvas)sender;
-            if (drawingCanvas.IsDrawing)
-                drawingCanvas.drawShape(drawingCanvas.CurShape, e.GetPosition(drawingCanvas));
+            var curPoint = e.GetPosition(canvas);
+            if (controller != null)
+                controller.RedrawCurObject(curPoint);
         }
 
         private void btnPickPenColor_Click(object sender, RoutedEventArgs e)
         {
-            using (System.Windows.Forms.ColorDialog colorDialog = new System.Windows.Forms.ColorDialog())
-            {
-                if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    this.MyCanvas.PenColor = Color.FromArgb(colorDialog.Color.A, colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B);
-            }
+            if (controller != null)
+                controller.ChoosePenColor();
         }
 
         private void btnPickBrushColor_Click(object sender, RoutedEventArgs e)
         {
-            using (System.Windows.Forms.ColorDialog colorDialog = new System.Windows.Forms.ColorDialog())
+            if (controller != null)
             {
-                if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    this.MyCanvas.BrushColor = Color.FromArgb(colorDialog.Color.A, colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B);
+                controller.ChooseBrushColor();
             }
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-            if (sender.GetType() != typeof(ComboBox) || this.MyCanvas == null)
+            if (sender.GetType() != typeof(ComboBox) || controller == null)
                 return;
             ComboBox listBox = sender as ComboBox;
-            this.MyCanvas.PenWidth = listBox.SelectedIndex;
+            controller.ChangePenWidth(listBox.SelectedIndex);
         }
 
         private void CmbBoxTool_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (sender.GetType() != typeof(ComboBox)) 
+            if (sender.GetType() != typeof(ComboBox) || controller == null)
                 return;
             ComboBox comboBox = sender as ComboBox;
-            curTool = (Tool)comboBox.SelectedIndex;
+            controller.ChooseTool(comboBox.SelectedIndex);
         }
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.MyCanvas.Undo();
+            if (controller != null)
+                controller.Undo();
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog
-            {
-                Filter = "Shapes files (*.shapes)|*.shapes",
-                DefaultExt = ".shapes",
-                AddExtension = true
-            };
-            if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                DrawableShapeFileHandler.SaveCollection(this.MyCanvas.Model, saveFileDialog.FileName);
-            }
+            if (controller != null)
+                controller.SaveShapes();
         }
 
         private void BtnOpen_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog
-            {
-                Filter = "(*.shapes)|*.shapes",
-                DefaultExt = ".shapes",
-                AddExtension = true
-            };
-
-            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                DrawableShapeFileHandler.LoadCollection(this.MyCanvas.Model, openFileDialog.FileName);
-                this.MyCanvas.ValidateView();
-            }
+            if (controller != null)
+                controller.OpenShapes();
         }
     }
 }

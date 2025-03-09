@@ -6,5 +6,11 @@ using System.Threading.Tasks;
 
 namespace OOPaint
 {
-    internal enum Tool { TOOL_SQUARE, TOOL_LINE, TOOL_ELLIPSE, TOOL_TRIANGLE, TOOL_NONE};
+    internal class PluginController
+    {
+        public static void LoadPlugins()
+        {
+
+        }
+    }
 }

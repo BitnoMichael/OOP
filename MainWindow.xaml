@@ -53,7 +53,7 @@
         </StackPanel>
 
         <!-- MyCanvas будет занимать оставшееся пространство -->
-        <local:DrawingCanvas x:Name="MyCanvas" Grid.Row="1" Grid.Column="0" Background="White" 
+        <local:MyCanvas x:Name="canvas" Grid.Row="1" Grid.Column="0" Background="White" 
                              MouseDown="MyCanvas_MouseDown" 
                              MouseMove="MyCanvas_MouseMove"/>
     </Grid>

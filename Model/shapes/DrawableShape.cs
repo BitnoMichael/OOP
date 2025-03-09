@@ -6,30 +6,22 @@ using System.Windows.Controls;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace OOPaint.Shapes
+namespace OOPaint
 {
     [Serializable]
-    internal abstract class DrawableShape
+    public abstract class MyShape
     {
         private Point _point1;
-        public Point Point1
+        public Point OuterPoint1
         {
             get { return _point1; }
-            set
-            {
-                _point1 = value;
-                RefreshSize();
-            }
+            set { _point1 = value; }
         }
         private Point _point2;
-        public Point Point2
+        public Point OuterPoint2
         {
             get { return _point2; }
-            set
-            {
-                _point2 = value;
-                RefreshSize();
-            }
+            set { _point2 = value; }
         }
         private byte _brushColorA;
         private byte _brushColorR;
@@ -44,7 +36,6 @@ namespace OOPaint.Shapes
                 _brushColorR = value.R;
                 _brushColorG = value.G;
                 _brushColorB = value.B;
-                Figure.Fill = new SolidColorBrush(BrushColor);
             }
         }
 
@@ -61,7 +52,6 @@ namespace OOPaint.Shapes
                 _penColorR = value.R;
                 _penColorG = value.G;
                 _penColorB = value.B;
-                Figure.Fill = new SolidColorBrush(BrushColor);
             }
         }
 
@@ -69,22 +59,7 @@ namespace OOPaint.Shapes
         public double PenWidth
         {
             get { return _penWidth; }
-            set
-            {
-                _penWidth = value;
-                Figure.StrokeThickness = _penWidth;
-            }
+            set { _penWidth = value;}
         }
-        public abstract void RefreshSize();
-        public void ValidateView()
-        {
-            if (Figure == null)
-                Figure = ShapeFactory.CreateShape(this.GetType(), BrushColor, PenColor, PenWidth, Point1);
-            BrushColor = BrushColor;
-            PenColor = PenColor;
-            PenWidth = PenWidth;
-            RefreshSize();
-        }
-        public abstract Shape Figure { get; set; }
     }
 }

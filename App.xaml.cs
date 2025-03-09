@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Shapes;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace OOPaint
 {
@@ -13,5 +15,6 @@ namespace OOPaint
     /// </summary>
     public partial class App : Application
     {
+        
     }
 }

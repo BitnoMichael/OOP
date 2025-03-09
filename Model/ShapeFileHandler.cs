@@ -8,23 +8,20 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows;
-using OOPaint.Shapes;
 using System.CodeDom.Compiler;
 
 namespace OOPaint
 {
-    internal static class DrawableShapeFileHandler
+    internal static class ShapeFileHandler
     {
-        public static void SaveCollection(Stack<DrawableShape> collection, string fileName)
+        public static void SaveCollection(List<MyShape> collection, string fileName)
         {
-            Stack<DrawableShape> tempCollection = new Stack<DrawableShape>(collection);
             try
             {
                 using (FileStream stream = new FileStream(fileName, FileMode.Create))
                 {
                     BinaryFormatter formatter = new BinaryFormatter();
-                    while (tempCollection.Count > 0)
-                        formatter.Serialize(stream, tempCollection.Pop());
+                    formatter.Serialize(stream, collection);
                 }
             }
             catch (Exception ex)
@@ -32,25 +29,22 @@ namespace OOPaint
                 MessageBox.Show($"Ошибка при записи в файл: {ex.Message}");
             }
         }
-        public static void LoadCollection(Stack<DrawableShape> collection, string fileName)
+        public static List<MyShape> LoadCollection(string fileName)
         {
-            collection.Clear();
+            var answer = new List<MyShape>();
             try
             {
                 using (FileStream stream = new FileStream(fileName, FileMode.Open))
                 {
                     BinaryFormatter formatter = new BinaryFormatter();
-                    while (stream.Position < stream.Length)
-                    {
-                        collection.Push((DrawableShape)formatter.Deserialize(stream));
-                        collection.Peek().ValidateView();
-                    }
+                    answer = (List<MyShape>)formatter.Deserialize(stream);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка при открытии файла: {ex.Message}");
             }
+            return answer;
         }
     }
 }
