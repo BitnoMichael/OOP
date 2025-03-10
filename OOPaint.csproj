@@ -101,6 +101,8 @@
     <Compile Include="Model\shapes\MyTriangle.cs" />
     <Compile Include="Model\SettingsModel.cs" />
     <Compile Include="Plugins\IPlugin.cs" />
+    <Compile Include="Services\MyShapeCreatorsSingleton.cs" />
+    <Compile Include="Services\ShapeCreatorsSingleton.cs" />
     <Compile Include="View\MyCanvas.cs" />
     <Compile Include="View\ShapeCreators.cs" />
     <Compile Include="View\ViewConstants.cs" />
@@ -156,8 +158,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

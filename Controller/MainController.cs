@@ -30,13 +30,14 @@ namespace OOPaint
             var startPoint = _view.canvas.StartPoint;
 
             drawingCanvas.IsDrawing = false;
-            if (AppConstants.myShapeCreatorsToTools.TryGetValue(tool, out var shapeCreator))
+            var shapeCreator = Services.MyShapeCreatorsSingleton.GetInstance(tool);
+            if (shapeCreator != null)
             {
                 _model.Add(shapeCreator.createDrawableShape(
-                    _settings.BrushColor, 
-                    _settings.PenColor, 
-                    _settings.PenWidth, 
-                    startPoint, 
+                    _settings.BrushColor,
+                    _settings.PenColor,
+                    _settings.PenWidth,
+                    startPoint,
                     endPoint
                 ));
             }
@@ -45,8 +46,8 @@ namespace OOPaint
         {
             var drawingCanvas = _view.canvas;
             var tool = _settings.curToolIndex;
-            IShapeCreator shapeCreator;
-            if (AppConstants.shapeCreatorsToTools.TryGetValue(tool, out shapeCreator))
+            IShapeCreator shapeCreator = Services.ShapeCreatorsSingleton.GetInstance(tool);
+            if (shapeCreator != null)
             {
                 drawingCanvas.StartPoint = startPoint;
                 drawingCanvas.IsDrawing = true;
@@ -119,13 +120,16 @@ namespace OOPaint
         }
         private void redrawView()
         {
+            _view.canvas.Children.Clear();
             foreach (var item in _model.getShapesAsList())
-                if (AppConstants.shapeCreatorsToMyShapesTypes.TryGetValue(item.GetType(), out var shapeCreator))
+            {
+                var shapeCreator = Services.ShapeCreatorsSingleton.GetInstance(item.GetType());
+                if (shapeCreator != null)
                 {
                     var shape = shapeCreator.CreateShape(item.BrushColor, item.PenColor, item.PenWidth, item.OuterPoint1, item.OuterPoint2);
                     _view.canvas.Children.Add(shape);
                 }
-            
+            }
         }
         public void OpenShapes()
         {

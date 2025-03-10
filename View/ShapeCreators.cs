@@ -16,13 +16,6 @@ namespace OOPaint
         void TransformShape(Shape shape, Point point1, Point point2);
     }
 
-    [AttributeUsage(AttributeTargets.Class)]
-    public class CreatorNameAttribute : Attribute
-    {
-        public string Name { get; }
-        public CreatorNameAttribute(string name) => Name = name;
-    }
-
     internal class EllipseCreator : IShapeCreator
     {
         public Shape CreateShape(Color brushColor, Color penColor, double penWidth, Point point1, Point point2)

@@ -130,7 +130,6 @@ namespace OOPaint
             if (controller != null)
                 controller.Undo();
         }
-
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
             if (controller != null)
