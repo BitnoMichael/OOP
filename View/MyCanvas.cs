@@ -16,7 +16,7 @@ namespace OOPaint
         public Shape CurShape = null;
         public IShapeCreator CurShapeCreator = null;
         private Stack<Shape> ShapeStack = new Stack<Shape>();
-        public Point StartPoint;
+        public PointCollection SettedPoints = new PointCollection();
         public void AddShape(Shape shape)
         {
             Children.Add(shape);

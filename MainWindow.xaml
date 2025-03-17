@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OOPaint"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" KeyDown="Window_KeyDown">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -33,6 +33,8 @@
                 <ListBoxItem Content="Линия"/>
                 <ListBoxItem Content="Эллипс"/>
                 <ListBoxItem Content="Треугольник"/>
+                <ListBoxItem Content="Ломаная"/>
+                <ListBoxItem Content="Многоугольник"/>
             </ComboBox>
             <Label Content="Толщина пера" FontSize="13" />
             <ComboBox Width="60" Height="23" SelectedIndex="0" SelectionChanged="ComboBox_SelectionChanged" Margin="0,0,10,0">

@@ -94,7 +94,11 @@
     <Compile Include="Model\ShapeFileHandler.cs" />
     <Compile Include="Model\ModelConstants.cs" />
     <Compile Include="Model\ShapeModel.cs" />
-    <Compile Include="Model\shapes\DrawableShape.cs" />
+    <Compile Include="Model\shapes\ComplexShape.cs" />
+    <Compile Include="Model\shapes\MyBrokenLine.cs" />
+    <Compile Include="Model\shapes\MyPolygon.cs" />
+    <Compile Include="Model\shapes\SimpleShape.cs" />
+    <Compile Include="Model\shapes\IShape.cs" />
     <Compile Include="Model\shapes\MyEllipse.cs" />
     <Compile Include="Model\shapes\MyLine.cs" />
     <Compile Include="Model\shapes\MyRectangle.cs" />

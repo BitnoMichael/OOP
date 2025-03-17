@@ -7,7 +7,7 @@ using System.Windows.Shapes;
 namespace OOPaint
 {
     [Serializable]
-    internal class MyEllipse : MyShape
+    internal class MyEllipse : SimpleShape
     {
         public MyEllipse(Color brushColor, Color penColor, double penWidth, Point point1, Point point2)
         {

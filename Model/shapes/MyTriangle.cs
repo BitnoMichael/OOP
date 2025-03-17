@@ -6,7 +6,7 @@ using System.Windows.Shapes;
 namespace OOPaint
 {
     [Serializable]
-    internal class MyIsoscelesTriangle : MyShape
+    internal class MyIsoscelesTriangle : SimpleShape
     {
         public MyIsoscelesTriangle(Color brushColor, Color penColor, double penWidth, Point point1, Point point2)
         {

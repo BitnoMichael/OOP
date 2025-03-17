@@ -1,5 +1,4 @@
 ﻿using OOPaint;
-using OOPaint.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -69,29 +68,22 @@ namespace OOPaint
             InitializeComponent();
             controller = new MainController(this);
         }
-        MainController controller;
+        private MainController controller;
+        private Point _mousePosition = new Point();
         private void MyCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton != MouseButton.Left || controller == null)
                 return;
             MyCanvas drawingCanvas = (MyCanvas)sender;
-            var curPoint = e.GetPosition(drawingCanvas);
 
-            if (drawingCanvas.IsDrawing)
-            {
-                controller.StopDraw(curPoint);
-            }
-            else
-            {
-                controller.StartDraw(curPoint);
-            }
+            controller.Draw(_mousePosition);
         }
 
         private void MyCanvas_MouseMove(object sender, MouseEventArgs e)
         {
-            var curPoint = e.GetPosition(canvas);
+            _mousePosition = e.GetPosition(canvas);
             if (controller != null)
-                controller.RedrawCurObject(curPoint);
+                controller.RedrawCurObject(_mousePosition);
         }
 
         private void btnPickPenColor_Click(object sender, RoutedEventArgs e)
@@ -140,6 +132,12 @@ namespace OOPaint
         {
             if (controller != null)
                 controller.OpenShapes();
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                controller.StopDraw(_mousePosition);
         }
     }
 }

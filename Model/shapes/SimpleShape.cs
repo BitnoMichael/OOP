@@ -9,7 +9,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace OOPaint
 {
     [Serializable]
-    public abstract class MyShape
+    public abstract class SimpleShape: IShape
     {
         private Point _point1;
         public Point OuterPoint1

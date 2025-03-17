@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace OOPaint.Model
+namespace OOPaint
 {
     internal class SettingsModel
     {

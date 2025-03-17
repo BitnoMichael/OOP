@@ -7,7 +7,7 @@ using System.Windows.Shapes;
 namespace OOPaint
 {
     [Serializable]
-    internal class MyLine : MyShape
+    internal class MyLine : SimpleShape
     {
         public MyLine(Color strokeColor, double strokeWidth, Point point1, Point point2)
         {

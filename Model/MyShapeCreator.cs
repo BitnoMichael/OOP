@@ -12,34 +12,54 @@ namespace OOPaint
 {
     public interface IMyShapeCreator
     {
-        MyShape createDrawableShape(Color brushColor, Color penColor, double penWidth, Point point1, Point point2);
+        IShape createDrawableShape(Color brushColor, Color penColor, double penWidth, PointCollection points);
     }
+
     internal class MyEllipseCreator : IMyShapeCreator
     {
-        public MyShape createDrawableShape(Color brushColor, Color penColor, double penWidth, Point point1, Point point2)
+        public IShape createDrawableShape(Color brushColor, Color penColor, double penWidth, PointCollection points)
         {
-            return new MyEllipse(brushColor, penColor, penWidth, point1, point2);
+            // Здесь можно использовать points[0] и points[1] для определения размеров
+            return new MyEllipse(brushColor, penColor, penWidth, points[0], points[1]);
         }
     }
+
     internal class MyLineCreator : IMyShapeCreator
     {
-        public MyShape createDrawableShape(Color brushColor, Color penColor, double penWidth, Point point1, Point point2)
+        public IShape createDrawableShape(Color brushColor, Color penColor, double penWidth, PointCollection points)
         {
-            return new MyLine(penColor, penWidth, point1, point2);
-        }   
-    }
-    internal class MyRectangleCreator : IMyShapeCreator
-    {
-        public MyShape createDrawableShape(Color brushColor, Color penColor, double penWidth, Point point1, Point point2)
-        {
-            return new MyRectangle(brushColor, penColor, penWidth, point1, point2);
+            return new MyLine(penColor, penWidth, points[0], points[1]);
         }
     }
+
+    internal class MyRectangleCreator : IMyShapeCreator
+    {
+        public IShape createDrawableShape(Color brushColor, Color penColor, double penWidth, PointCollection points)
+        {
+            return new MyRectangle(brushColor, penColor, penWidth, points[0], points[1]);
+        }
+    }
+
     internal class MyIsoscelesTriangleCreator : IMyShapeCreator
     {
-        public MyShape createDrawableShape(Color brushColor, Color penColor, double penWidth, Point point1, Point point2)
+        public IShape createDrawableShape(Color brushColor, Color penColor, double penWidth, PointCollection points)
         {
-            return new MyIsoscelesTriangle(brushColor, penColor, penWidth, point1, point2);
+            return new MyIsoscelesTriangle(brushColor, penColor, penWidth, points[0], points[1]);
+        }
+    }
+
+    internal class MyBrokenLineCreator : IMyShapeCreator
+    {
+        public IShape createDrawableShape(Color brushColor, Color penColor, double penWidth, PointCollection points)
+        {
+            return new MyBrokenLine(brushColor, penColor, penWidth, points);
+        }
+    }
+    internal class MyPolygonCreator : IMyShapeCreator
+    {
+        public IShape createDrawableShape(Color brushColor, Color penColor, double penWidth, PointCollection points)
+        {
+            return new MyPolygon(brushColor, penColor, penWidth, points);
         }
     }
 }

@@ -9,8 +9,8 @@ using System.Windows;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 using System.Windows.Media;
-using OOPaint.Model;
 using System.Net;
+using OOPaint.Services;
 
 namespace OOPaint
 {
@@ -23,41 +23,75 @@ namespace OOPaint
         {
             _view = view;
         }
+        public void Draw(Point lastPoint)
+        {
+            if (_view.canvas.IsDrawing)
+            {
+                if (MyShapeCreatorsSingleton.GetInstance().IsComplexShapeCreator(_settings.curToolIndex))
+                {
+                    this.ContinueDraw(lastPoint);
+                }
+                else
+                {
+                    StopDraw(lastPoint);
+                }
+            }
+            else
+            {
+                StartDraw(lastPoint);
+            }
+        }
+        public void ContinueDraw(Point lastPoint)
+        {
+            if (_view.canvas.IsDrawing) 
+                _view.canvas.SettedPoints.Add(lastPoint);
+        }
         public void StopDraw(Point endPoint)
         {
+            if (!_view.canvas.IsDrawing)
+                return;
             var drawingCanvas = _view.canvas;
             var tool = _settings.curToolIndex;
-            var startPoint = _view.canvas.StartPoint;
+            var points = _view.canvas.SettedPoints;
+            points.Add(endPoint);
 
             drawingCanvas.IsDrawing = false;
-            var shapeCreator = Services.MyShapeCreatorsSingleton.GetInstance(tool);
+            var shapeCreator = Services.MyShapeCreatorsSingleton.GetInstance().GetCreator(this._settings.curToolIndex);
             if (shapeCreator != null)
             {
-                _model.Add(shapeCreator.createDrawableShape(
-                    _settings.BrushColor,
-                    _settings.PenColor,
-                    _settings.PenWidth,
-                    startPoint,
-                    endPoint
-                ));
+                _model.Add(
+                    shapeCreator.createDrawableShape(
+                        _settings.BrushColor,
+                        _settings.PenColor,
+                        _settings.PenWidth,
+                        new PointCollection
+                        (
+                            points
+                        )
+                    )
+                );
             }
+            points.Clear();
         }
         public void StartDraw(Point startPoint)
         {
+            if (_view.canvas.IsDrawing)
+                return;
             var drawingCanvas = _view.canvas;
             var tool = _settings.curToolIndex;
-            IShapeCreator shapeCreator = Services.ShapeCreatorsSingleton.GetInstance(tool);
+            IShapeCreator shapeCreator = Services.ShapeCreatorsSingleton.GetInstance().GetCreator(tool);
             if (shapeCreator != null)
             {
-                drawingCanvas.StartPoint = startPoint;
+                drawingCanvas.SettedPoints.Add(startPoint);
                 drawingCanvas.IsDrawing = true;
                 drawingCanvas.CurShapeCreator = shapeCreator;
+                var initPoints = new PointCollection(drawingCanvas.SettedPoints);
+                initPoints.Add(startPoint);
                 drawingCanvas.CurShape = shapeCreator.CreateShape(
                     _settings.BrushColor,
                     _settings.PenColor,
                     _settings.PenWidth,
-                    startPoint,
-                    startPoint
+                    initPoints
                 );
                 drawingCanvas.AddShape(drawingCanvas.CurShape);
             }
@@ -67,7 +101,7 @@ namespace OOPaint
         {
             if (_view.canvas.IsDrawing)
             {
-                _view.canvas.CurShapeCreator.TransformShape(_view.canvas.CurShape, _view.canvas.StartPoint, endPoint);
+                _view.canvas.CurShapeCreator.TransformShape(_view.canvas.CurShape, _view.canvas.SettedPoints, endPoint);
             }
         }
 
@@ -123,11 +157,35 @@ namespace OOPaint
             _view.canvas.Children.Clear();
             foreach (var item in _model.getShapesAsList())
             {
-                var shapeCreator = Services.ShapeCreatorsSingleton.GetInstance(item.GetType());
+                var shapeCreator = Services.ShapeCreatorsSingleton.GetInstance().GetCreator(item.GetType());
                 if (shapeCreator != null)
                 {
-                    var shape = shapeCreator.CreateShape(item.BrushColor, item.PenColor, item.PenWidth, item.OuterPoint1, item.OuterPoint2);
-                    _view.canvas.Children.Add(shape);
+                    System.Windows.Shapes.Shape shape;
+                    switch(item)
+                    {
+                        case SimpleShape simpleShape:
+                            shape = shapeCreator.CreateShape(
+                                simpleShape.BrushColor,
+                                simpleShape.PenColor,
+                                simpleShape.PenWidth,
+                                new PointCollection(
+                                    new Point[]
+                                    {
+                                        simpleShape.OuterPoint1, simpleShape.OuterPoint2
+                                    })
+                            );
+                            _view.canvas.Children.Add(shape);
+                            break;
+                        case ComplexShape complexShape:
+                            shape = shapeCreator.CreateShape(
+                                complexShape.BrushColor,
+                                complexShape.PenColor,
+                                complexShape.PenWidth,
+                                complexShape.Points
+                            );
+                            _view.canvas.Children.Add(shape);
+                            break;
+                    }
                 }
             }
         }

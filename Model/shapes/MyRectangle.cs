@@ -7,7 +7,7 @@ using System.Windows.Shapes;
 namespace OOPaint
 {
     [Serializable]
-    internal class MyRectangle : MyShape
+    internal class MyRectangle : SimpleShape
     {   public MyRectangle(Color brushColor, Color penColor, double penWidth, Point point1, Point point2)
         {
             BrushColor = brushColor;
