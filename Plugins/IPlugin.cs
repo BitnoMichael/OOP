@@ -9,7 +9,6 @@ namespace OOPaint
 {
     internal interface IPlugin
     {
-        IShapeCreator ShapeCreator { get; }
         IMyShapeCreator MyShapeCreator { get; }
         Shape Shape { get; }
         string Name { get; }

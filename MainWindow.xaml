@@ -37,7 +37,7 @@
                 <ListBoxItem Content="Многоугольник"/>
             </ComboBox>
             <Label Content="Толщина пера" FontSize="13" />
-            <ComboBox Width="60" Height="23" SelectedIndex="0" SelectionChanged="ComboBox_SelectionChanged" Margin="0,0,10,0">
+            <ComboBox Width="60" Height="23" SelectedIndex="2" SelectionChanged="ComboBox_SelectionChanged" Margin="0,0,10,0">
                 <ListBoxItem Content="0"/>
                 <ListBoxItem Content="1"/>
                 <ListBoxItem Content="2"/>

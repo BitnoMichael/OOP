@@ -14,7 +14,7 @@ namespace OOPaint
 {
     internal static class ShapeFileHandler
     {
-        public static void SaveCollection(List<IShape> collection, string fileName)
+        public static void SaveCollection(List<MyShape> collection, string fileName)
         {
             try
             {
@@ -29,15 +29,15 @@ namespace OOPaint
                 MessageBox.Show($"Ошибка при записи в файл: {ex.Message}");
             }
         }
-        public static List<IShape> LoadCollection(string fileName)
+        public static List<MyShape> LoadCollection(string fileName)
         {
-            var answer = new List<IShape>();
+            var answer = new List<MyShape>();
             try
             {
                 using (FileStream stream = new FileStream(fileName, FileMode.Open))
                 {
                     BinaryFormatter formatter = new BinaryFormatter();
-                    answer = (List<IShape>)formatter.Deserialize(stream);
+                    answer = (List<MyShape>)formatter.Deserialize(stream);
                 }
             }
             catch (Exception ex)

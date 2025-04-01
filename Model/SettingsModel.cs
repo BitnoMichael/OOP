@@ -11,7 +11,7 @@ namespace OOPaint
     {
         public Color BrushColor = Color.FromRgb(0, 0, 0);
         public Color PenColor = Color.FromRgb(0, 0, 0);
-        public double PenWidth = 0;
+        public double PenWidth = 2;
         public int curToolIndex = 0;
     }
 }

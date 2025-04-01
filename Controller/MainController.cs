@@ -59,17 +59,7 @@ namespace OOPaint
             var shapeCreator = Services.MyShapeCreatorsSingleton.GetInstance().GetCreator(this._settings.curToolIndex);
             if (shapeCreator != null)
             {
-                _model.Add(
-                    shapeCreator.createDrawableShape(
-                        _settings.BrushColor,
-                        _settings.PenColor,
-                        _settings.PenWidth,
-                        new PointCollection
-                        (
-                            points
-                        )
-                    )
-                );
+                _model.Add(_view.canvas.CurShape);
             }
             points.Clear();
         }
@@ -79,7 +69,7 @@ namespace OOPaint
                 return;
             var drawingCanvas = _view.canvas;
             var tool = _settings.curToolIndex;
-            IShapeCreator shapeCreator = Services.ShapeCreatorsSingleton.GetInstance().GetCreator(tool);
+            IMyShapeCreator shapeCreator = Services.MyShapeCreatorsSingleton.GetInstance().GetCreator(tool);
             if (shapeCreator != null)
             {
                 drawingCanvas.SettedPoints.Add(startPoint);
@@ -157,35 +147,17 @@ namespace OOPaint
             _view.canvas.Children.Clear();
             foreach (var item in _model.getShapesAsList())
             {
-                var shapeCreator = Services.ShapeCreatorsSingleton.GetInstance().GetCreator(item.GetType());
+                var shapeCreator = Services.MyShapeCreatorsSingleton.GetInstance().GetCreator(_settings.curToolIndex);
                 if (shapeCreator != null)
                 {
                     System.Windows.Shapes.Shape shape;
-                    switch(item)
-                    {
-                        case SimpleShape simpleShape:
-                            shape = shapeCreator.CreateShape(
-                                simpleShape.BrushColor,
-                                simpleShape.PenColor,
-                                simpleShape.PenWidth,
-                                new PointCollection(
-                                    new Point[]
-                                    {
-                                        simpleShape.OuterPoint1, simpleShape.OuterPoint2
-                                    })
-                            );
-                            _view.canvas.Children.Add(shape);
-                            break;
-                        case ComplexShape complexShape:
-                            shape = shapeCreator.CreateShape(
-                                complexShape.BrushColor,
-                                complexShape.PenColor,
-                                complexShape.PenWidth,
-                                complexShape.Points
-                            );
-                            _view.canvas.Children.Add(shape);
-                            break;
-                    }
+                    shape = shapeCreator.CreateShape(
+                        item.BrushColor,
+                        item.PenColor,
+                        item.PenWidth,
+                        new PointCollection(item.Points)
+                    );
+                    _view.canvas.Children.Add(shape);
                 }
             }
         }

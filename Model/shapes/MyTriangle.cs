@@ -6,27 +6,54 @@ using System.Windows.Shapes;
 namespace OOPaint
 {
     [Serializable]
-    internal class MyIsoscelesTriangle : SimpleShape
+    internal class MyIsoscelesTriangle : MyShape
     {
         public MyIsoscelesTriangle(Color brushColor, Color penColor, double penWidth, Point point1, Point point2)
         {
             BrushColor = brushColor;
             PenColor = penColor;
             PenWidth = penWidth;
-            OuterPoint1 = point1;
-            OuterPoint2 = point2;
+            Points = new Point[2]
+            {
+                point1,
+                point2
+            };
         }
-        public PointCollection Points
+
+        protected override Geometry DefiningGeometry
         {
             get
             {
-                PointCollection points = new PointCollection();
-                points.Add(new Point(OuterPoint1.X, OuterPoint1.Y));
-                points.Add(new Point(OuterPoint2.X, OuterPoint1.Y));
-                points.Add(new Point((OuterPoint1.X + OuterPoint2.X) / 2, OuterPoint2.Y));
-                return points;
+                if (Points == null || Points.Length < 2)
+                    return Geometry.Empty;
+
+                // Calculate the base points and height
+                Point basePoint1 = new Point(Points[0].X, Points[1].Y);
+                Point basePoint2 = Points[1];
+                Point apexPoint = new Point((Points[0].X + Points[1].X) / 2, Points[0].Y);
+
+                // Create the triangle geometry
+                PathGeometry triangleGeometry = new PathGeometry();
+                PathFigure triangleFigure = new PathFigure();
+
+                // Start at the apex point
+                triangleFigure.StartPoint = apexPoint;
+
+                // Add lines to base points
+                triangleFigure.Segments.Add(new LineSegment(basePoint1, true));
+                triangleFigure.Segments.Add(new LineSegment(basePoint2, true));
+
+                // Close the triangle
+                triangleFigure.IsClosed = true;
+
+                triangleGeometry.Figures.Add(triangleFigure);
+                return triangleGeometry;
             }
         }
-    }
 
+        public override bool isComplex()
+        {
+            return false;
+        }
+    }
 }

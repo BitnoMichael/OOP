@@ -13,11 +13,11 @@ namespace OOPaint
     public class MyCanvas : Canvas
     {
         public bool IsDrawing = false;
-        public Shape CurShape = null;
-        public IShapeCreator CurShapeCreator = null;
-        private Stack<Shape> ShapeStack = new Stack<Shape>();
+        public MyShape CurShape = null;
+        public IMyShapeCreator CurShapeCreator = null;
+        private Stack<MyShape> ShapeStack = new Stack<MyShape>();
         public PointCollection SettedPoints = new PointCollection();
-        public void AddShape(Shape shape)
+        public void AddShape(MyShape shape)
         {
             Children.Add(shape);
             ShapeStack.Push(shape);
@@ -28,10 +28,6 @@ namespace OOPaint
             {
                 Children.Remove(ShapeStack.Pop());
             }
-        }
-        public void ChangeShape(Shape shape, Point secondPoint)
-        {
-
         }
     }
 }

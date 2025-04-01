@@ -35,7 +35,7 @@ namespace OOPaint.Services
         }
         public bool IsComplexShapeCreator(int index)
         {
-            return _instance._myShapeCreatorsToTools[index].createDrawableShape
+            return _instance._myShapeCreatorsToTools[index].CreateShape
                 (
                     new System.Windows.Media.Color(),
                     new System.Windows.Media.Color(),
@@ -47,7 +47,7 @@ namespace OOPaint.Services
                             new System.Windows.Point()
                         }
                     )
-                ) is ComplexShape;
+                ).isComplex();
         }
         public void AddCreator(IMyShapeCreator myShapeCreator)
         {

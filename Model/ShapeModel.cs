@@ -10,30 +10,30 @@ namespace OOPaint
 {
     internal class ShapeModel
     {
-        private Stack<IShape> shapes;
-        public IShape GetLast()
+        private Stack<MyShape> shapes;
+        public MyShape GetLast()
         {
             return shapes.Peek();
         }
-        public IShape PollLast()
+        public MyShape PollLast()
         {
             return shapes.Pop();
         }
-        public void Add(IShape shape)
+        public void Add(MyShape shape)
         {
             shapes.Push(shape);
         }
-        public List<IShape> getShapesAsList()
+        public List<MyShape> getShapesAsList()
         {
-            return new List<IShape>(shapes.ToList());
+            return new List<MyShape>(shapes.ToList());
         }
-        public ShapeModel(ICollection<IShape> shapes)
+        public ShapeModel(ICollection<MyShape> shapes)
         {
-            this.shapes = new Stack<IShape>(shapes);
+            this.shapes = new Stack<MyShape>(shapes);
         }
         public ShapeModel()
         {
-            this.shapes = new Stack<IShape>();
+            this.shapes = new Stack<MyShape>();
         }
     }
 }
