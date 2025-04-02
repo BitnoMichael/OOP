@@ -10,7 +10,9 @@ namespace OOPaint.Services
 
     internal class MyShapeCreatorsSingleton
     {
-        private static MyShapeCreatorsSingleton _instance = new MyShapeCreatorsSingleton();
+        private static MyShapeCreatorsSingleton _instance = null;
+        private static readonly object syncRoot = new object();
+
         private List<IMyShapeCreator> _myShapeCreatorsToTools =
             new List<IMyShapeCreator>()
             {
@@ -24,6 +26,9 @@ namespace OOPaint.Services
         private MyShapeCreatorsSingleton() { }
         public static MyShapeCreatorsSingleton GetInstance()
         {
+            if (_instance == null)
+                lock (syncRoot)
+                    _instance = new MyShapeCreatorsSingleton();
             return _instance;
         }
 

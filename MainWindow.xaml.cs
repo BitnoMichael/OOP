@@ -18,46 +18,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static OOPaint.ModelConstants;
-
-/*
-Shapes(System.Windows.Shapes)
-├── Shape(абстрактный класс)
-│   ├── Fill(Brush)
-│   ├── Stroke(Brush)
-│   ├── StrokeThickness(double)
-│   └── Opacity(double)
-├── Rectangle(Shape)
-│   ├── RadiusX(double)
-│   ├── RadiusY(double)
-│   ├── Width(double)
-│   ├── Height(double)
-│   └── StrokeDashArray(DoubleCollection)
-├── Ellipse(Shape)
-│   ├── Width(double)
-│   ├── Height(double)
-│   └── StrokeDashArray(DoubleCollection)
-├── Line(Shape)
-│   ├── X1(double)
-│   ├── Y1(double)
-│   ├── X2(double)
-│   ├── Y2(double)
-│   └── StrokeDashArray(DoubleCollection)
-├── Polyline (Shape)
-│   ├── Points (PointCollection)
-│   ├── StrokeDashArray (DoubleCollection)
-│   └── IsClosed (bool)
-├── Polygon (Shape)
-│   ├── Points (PointCollection)
-│   ├── StrokeDashArray (DoubleCollection)
-│   └── IsClosed (bool)
-└── Path (Shape)
-    ├── Data (Geometry)
-    ├── StrokeDashArray (DoubleCollection)
-    ├── FillRule (FillRule)
-    ├── Stroke (Brush)
-    └── Fill (Brush)
-*/
 
 namespace OOPaint
 {

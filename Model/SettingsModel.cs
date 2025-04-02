@@ -9,9 +9,16 @@ namespace OOPaint
 {
     internal class SettingsModel
     {
-        public Color BrushColor = Color.FromRgb(0, 0, 0);
-        public Color PenColor = Color.FromRgb(0, 0, 0);
-        public double PenWidth = 2;
-        public int curToolIndex = 0;
+        public Color BrushColor { get; set; }
+        public Color PenColor { get; set; }
+        public double PenWidth { get; set; }
+        public int curToolIndex { get; set; } 
+        public SettingsModel(Color brushColor, Color penColor, double penWidth, int curToolIndex)
+        {
+            BrushColor = brushColor;
+            PenColor = penColor;
+            PenWidth = penWidth;
+            this.curToolIndex = curToolIndex;
+        }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static OOPaint.ModelConstants;
 using System.Windows.Controls;
 using System.Windows;
 using System.Runtime.InteropServices;
@@ -18,7 +17,7 @@ namespace OOPaint
     {
         private MainWindow _view;
         private ShapeModel _model = new ShapeModel();
-        private SettingsModel _settings = new SettingsModel();
+        private SettingsModel _settings = new SettingsModel(Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), 2, 0);
         public MainController(MainWindow view)
         {
             _view = view;

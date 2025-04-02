@@ -12,11 +12,11 @@ namespace OOPaint
 {
     public class MyCanvas : Canvas
     {
-        public bool IsDrawing = false;
-        public MyShape CurShape = null;
-        public IMyShapeCreator CurShapeCreator = null;
+        public bool IsDrawing { get; set; } = false;
+        public MyShape CurShape { get; set; } = null;
+        public IMyShapeCreator CurShapeCreator { get; set; } = null;
         private Stack<MyShape> ShapeStack = new Stack<MyShape>();
-        public PointCollection SettedPoints = new PointCollection();
+        public PointCollection SettedPoints { get; set; } = new PointCollection();
         public void AddShape(MyShape shape)
         {
             Children.Add(shape);

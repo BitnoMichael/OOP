@@ -87,11 +87,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controller\AppConstants.cs" />
     <Compile Include="Controller\MainController.cs" />
     <Compile Include="Controller\PluginController.cs" />
-    <Compile Include="Model\ShapeFileHandler.cs" />
-    <Compile Include="Model\ModelConstants.cs" />
     <Compile Include="Model\ShapeModel.cs" />
     <Compile Include="Model\shapes\MyBrokenLine.cs" />
     <Compile Include="Model\shapes\MyPolygon.cs" />
@@ -110,8 +107,8 @@
     <Compile Include="Services\Creators\MyPolylineCreator.cs" />
     <Compile Include="Services\Creators\MyRectangleCreator.cs" />
     <Compile Include="Services\MyShapeCreatorsSingleton.cs" />
+    <Compile Include="Services\ShapeFileHandler.cs" />
     <Compile Include="View\MyCanvas.cs" />
-    <Compile Include="View\ViewConstants.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
