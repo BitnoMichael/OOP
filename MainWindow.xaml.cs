@@ -99,5 +99,11 @@ namespace OOPaint
             if (e.Key == Key.Enter)
                 controller.StopDraw(_mousePosition);
         }
+
+        private void BtnRedo_Click(object sender, RoutedEventArgs e)
+        {
+            if (controller != null)
+                controller.Redo();
+        }
     }
 }

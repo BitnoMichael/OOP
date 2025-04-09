@@ -15,19 +15,6 @@ namespace OOPaint
         public bool IsDrawing { get; set; } = false;
         public MyShape CurShape { get; set; } = null;
         public IMyShapeCreator CurShapeCreator { get; set; } = null;
-        private Stack<MyShape> ShapeStack = new Stack<MyShape>();
         public PointCollection SettedPoints { get; set; } = new PointCollection();
-        public void AddShape(MyShape shape)
-        {
-            Children.Add(shape);
-            ShapeStack.Push(shape);
-        }
-        public void Undo()
-        {
-            if (ShapeStack.Count > 0)
-            {
-                Children.Remove(ShapeStack.Pop());
-            }
-        }
     }
 }

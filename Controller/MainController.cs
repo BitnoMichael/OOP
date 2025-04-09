@@ -16,11 +16,12 @@ namespace OOPaint
     public partial class MainController
     {
         private MainWindow _view;
-        private ShapeModel _model = new ShapeModel();
+        private ShapeModel _model;
         private SettingsModel _settings = new SettingsModel(Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), 2, 0);
         public MainController(MainWindow view)
         {
             _view = view;
+            _model = new ShapeModel(_view.canvas.Children);
         }
         public void Draw(Point lastPoint)
         {
@@ -56,10 +57,10 @@ namespace OOPaint
 
             drawingCanvas.IsDrawing = false;
             var shapeCreator = Services.MyShapeCreatorsSingleton.GetInstance().GetCreator(this._settings.curToolIndex);
-            if (shapeCreator != null)
-            {
-                _model.Add(_view.canvas.CurShape);
-            }
+            //if (shapeCreator != null)
+            //{
+            //    _model.Add(_view.canvas.CurShape);
+            //}
             points.Clear();
         }
         public void StartDraw(Point startPoint)
@@ -82,7 +83,7 @@ namespace OOPaint
                     _settings.PenWidth,
                     initPoints
                 );
-                drawingCanvas.AddShape(drawingCanvas.CurShape);
+                _model.Add(drawingCanvas.CurShape);
             }
         }
 
@@ -124,56 +125,59 @@ namespace OOPaint
 
         public void Undo()
         {
-            _view.canvas.Undo();
-            _model.PollLast();
+            _model.Undo();
+        }
+        public void Redo()
+        {
+            _model.Redo();
         }
 
         public void SaveShapes()
         {
-            System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog
-            {
-                Filter = "Shapes files (*.shapes)|*.shapes",
-                DefaultExt = ".shapes",
-                AddExtension = true
-            };
-            if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                ShapeFileHandler.SaveCollection(_model.getShapesAsList(), saveFileDialog.FileName);
-            }
+            //System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog
+            //{
+            //    Filter = "Shapes files (*.shapes)|*.shapes",
+            //    DefaultExt = ".shapes",
+            //    AddExtension = true
+            //};
+            //if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            //{
+            //    ShapeFileHandler.SaveCollection(_model.getShapesAsList(), saveFileDialog.FileName);
+            //}
         }
-        private void redrawView()
-        {
-            _view.canvas.Children.Clear();
-            foreach (var item in _model.getShapesAsList())
-            {
-                var shapeCreator = Services.MyShapeCreatorsSingleton.GetInstance().GetCreator(_settings.curToolIndex);
-                if (shapeCreator != null)
-                {
-                    System.Windows.Shapes.Shape shape;
-                    shape = shapeCreator.CreateShape(
-                        item.BrushColor,
-                        item.PenColor,
-                        item.PenWidth,
-                        new PointCollection(item.Points)
-                    );
-                    _view.canvas.Children.Add(shape);
-                }
-            }
-        }
+        //private void redrawView()
+        //{
+        //    _view.canvas.Children.Clear();
+        //    foreach (var item in _model.getShapesAsList())
+        //    {
+        //        var shapeCreator = Services.MyShapeCreatorsSingleton.GetInstance().GetCreator(_settings.curToolIndex);
+        //        if (shapeCreator != null)
+        //        {
+        //            System.Windows.Shapes.Shape shape;
+        //            shape = shapeCreator.CreateShape(
+        //                item.BrushColor,
+        //                item.PenColor,
+        //                item.PenWidth,
+        //                new PointCollection(item.Points)
+        //            );
+        //            _view.canvas.Children.Add(shape);
+        //        }
+        //    }
+        //}
         public void OpenShapes()
         {
-            System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog
-            {
-                Filter = "(*.shapes)|*.shapes",
-                DefaultExt = ".shapes",
-                AddExtension = true
-            };
+            //System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog
+            //{
+            //    Filter = "(*.shapes)|*.shapes",
+            //    DefaultExt = ".shapes",
+            //    AddExtension = true
+            //};
 
-            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                _model = new ShapeModel(ShapeFileHandler.LoadCollection(openFileDialog.FileName));
-                redrawView();
-            }
+            //if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            //{
+            //    _model = new ShapeModel(ShapeFileHandler.LoadCollection(openFileDialog.FileName));
+            //    redrawView();
+            //}
         }
     }
 }

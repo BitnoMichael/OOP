@@ -5,35 +5,49 @@ using System.Linq;
 using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Shapes;
 
 namespace OOPaint
 {
     internal class ShapeModel
     {
-        private Stack<MyShape> shapes;
-        public MyShape GetLast()
+        private UIElementCollection _shapesDI;
+        private readonly Stack<Shape> undoStack = new Stack<Shape>();
+        private readonly Stack<Shape> redoStack = new Stack<Shape>();
+        private void PushToStack(object sender, EventArgs e)
         {
-            return shapes.Peek();
+            Shape shapeToPush = (e as MyCanvasOnAddEventArgs).AddedShape;
+            redoStack.Push(shapeToPush);
         }
-        public MyShape PollLast()
+        public void Add(Shape shape)
         {
-            return shapes.Pop();
+            _shapesDI.Add(shape);
+            undoStack.Push(shape);
+            redoStack.Clear();
         }
-        public void Add(MyShape shape)
+        public void Undo()
         {
-            shapes.Push(shape);
+            if (undoStack.Count == 0)
+                return;
+
+            var undoShape = undoStack.Pop();
+            redoStack.Push(undoShape);
+            _shapesDI.Remove(undoShape);
         }
-        public List<MyShape> getShapesAsList()
+        public void Redo()
         {
-            return new List<MyShape>(shapes.ToList());
+            if (redoStack.Count == 0)
+                return;
+
+            var redoShape = redoStack.Pop();
+            undoStack.Push(redoShape);
+            _shapesDI.Add(redoShape);
         }
-        public ShapeModel(ICollection<MyShape> shapes)
+        public ShapeModel(UIElementCollection shapes)
         {
-            this.shapes = new Stack<MyShape>(shapes);
-        }
-        public ShapeModel()
-        {
-            this.shapes = new Stack<MyShape>();
+            this._shapesDI = shapes;
         }
     }
 }
