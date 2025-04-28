@@ -108,7 +108,6 @@
     <Compile Include="Services\Creators\MyRectangleCreator.cs" />
     <Compile Include="Services\MyShapeCreatorsSingleton.cs" />
     <Compile Include="Services\ShapeFileHandler.cs" />
-    <Compile Include="Services\UndoRedoService.cs" />
     <Compile Include="View\MyCanvas.cs" />
     <Compile Include="View\MyCanvasOnAddEventArgs.cs" />
     <Page Include="MainWindow.xaml">
