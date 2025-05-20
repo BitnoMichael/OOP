@@ -7,10 +7,11 @@ using System.Media;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Runtime.Serialization;
 
 namespace OOPaint
 {
-    public abstract class MyShape : Shape
+    public abstract class MyShape : Shape, ISerializable
     {
         public static readonly DependencyProperty PointsProperty =
             DependencyProperty.Register(
@@ -103,5 +104,20 @@ namespace OOPaint
             }
         }
         public abstract bool isComplex();
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("points", Points);
+
+            info.AddValue("brushColorR", BrushColor.R);
+            info.AddValue("brushColorG", BrushColor.G);
+            info.AddValue("brushColorB", BrushColor.B);
+
+            info.AddValue("penColorR", PenColor.R);
+            info.AddValue("penColorG", PenColor.G);
+            info.AddValue("penColorB", PenColor.B);
+
+            info.AddValue("penWidth", PenWidth);
+        }
     }
 }

@@ -11,7 +11,7 @@ using System.Windows.Shapes;
 
 namespace OOPaint
 {
-    internal class ShapeModel
+    internal class UndoRedoService
     {
         private UIElementCollection _shapesDI;
         private readonly Stack<Shape> undoStack = new Stack<Shape>();
@@ -45,7 +45,7 @@ namespace OOPaint
             undoStack.Push(redoShape);
             _shapesDI.Add(redoShape);
         }
-        public ShapeModel(UIElementCollection shapes)
+        public UndoRedoService(UIElementCollection shapes)
         {
             this._shapesDI = shapes;
         }

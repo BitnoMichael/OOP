@@ -27,8 +27,9 @@ namespace OOPaint.Services
         public static MyShapeCreatorsSingleton GetInstance()
         {
             if (_instance == null)
-                lock (syncRoot) //Only one thread can be here
-                    _instance = new MyShapeCreatorsSingleton();
+                lock (syncRoot)
+                    if (_instance == null)  
+                        _instance = new MyShapeCreatorsSingleton();
             return _instance;
         }
 

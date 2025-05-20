@@ -14,7 +14,7 @@ namespace OOPaint
 {
     internal static class ShapeFileHandler
     {
-        public static void SaveCollection(List<MyShape> collection, string fileName)
+        public static void Save(List<MyShape> collection, string fileName)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace OOPaint
                 MessageBox.Show($"Ошибка при записи в файл: {ex.Message}");
             }
         }
-        public static List<MyShape> LoadCollection(string fileName)
+        public static List<MyShape> Load(string fileName)
         {
             var answer = new List<MyShape>();
             try

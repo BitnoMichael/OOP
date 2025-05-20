@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -8,6 +9,20 @@ namespace OOPaint
     [Serializable]
     internal class MyLine : MyShape
     {
+        public MyLine(SerializationInfo info, StreamingContext context)
+        {
+            var points = (Point[])info.GetValue("points", typeof(Point[]));
+
+            var penR = info.GetByte("penColorR");
+            var penG = info.GetByte("penColorG");
+            var penB = info.GetByte("penColorB");
+
+            var penWidth = info.GetDouble("penWidth");
+
+            PenWidth = penWidth;
+            PenColor = Color.FromRgb(penR, penG, penB);
+            Points = points;
+        }
         public MyLine(Color strokeColor, double strokeWidth, Point point1, Point point2)
         {
             BrushColor = strokeColor;
