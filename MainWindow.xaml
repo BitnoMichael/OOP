@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OOPaint"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" KeyDown="Window_KeyDown">
+        Title="MainWindow" Height="450" Width="887" KeyDown="Window_KeyDown" MinWidth="887">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -53,6 +53,7 @@
             <Button Width="80" Content="Цвет заливки" Margin="0,0,10,0" x:Name="btnPickBrushColor" Click="btnPickBrushColor_Click"/>
             <Button x:Name="BtnCancel" Width="60" Content="Отмена" Margin="0,0,10,0" Click="BtnCancel_Click"/>
             <Button x:Name="BtnRedo" Width="60" Content="Вернуть" Margin="0,0,10,0" Click="BtnRedo_Click"/>
+            <Button x:Name="BtnPlugin" Width="60" Content="Плагин" Margin="0,0,10,0" Click="BtnPlugin_Click"/>
         </StackPanel>
 
         <!-- MyCanvas будет занимать оставшееся пространство -->

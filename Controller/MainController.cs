@@ -17,11 +17,13 @@ namespace OOPaint
     {
         private MainWindow _view;
         private UndoRedoService _undoRedoService;
+        private PluginService _pluginService;
         private SettingsModel _settings = new SettingsModel(Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), 2, 0);
         public MainController(MainWindow view)
         {
             _view = view;
             _undoRedoService = new UndoRedoService(_view.canvas.Children);
+            _pluginService = new PluginService(_view);
         }
         public void Draw(Point lastPoint)
         {
@@ -171,6 +173,21 @@ namespace OOPaint
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 listToModelShapes(ShapeFileHandler.Load(openFileDialog.FileName));
+                _undoRedoService.ClearHistory();
+            }
+        }
+        public void LoadPlugin()
+        {
+            System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog
+            {
+                Filter = "(*.dll)|*.dll",
+                DefaultExt = ".dll",
+                AddExtension = true
+            };
+
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                _pluginService.LoadPlugin(openFileDialog.FileName);
             }
         }
     }

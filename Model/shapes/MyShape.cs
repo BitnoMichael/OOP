@@ -103,7 +103,7 @@ namespace OOPaint
                 StrokeThickness = PenWidth;
             }
         }
-        public abstract bool isComplex();
+        public virtual bool isComplex() => false;
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {

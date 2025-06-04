@@ -105,5 +105,11 @@ namespace OOPaint
             if (controller != null)
                 controller.Redo();
         }
+
+        private void BtnPlugin_Click(object sender, RoutedEventArgs e)
+        {
+            if (controller != null)
+                controller.LoadPlugin();
+        }
     }
 }

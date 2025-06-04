@@ -45,6 +45,11 @@ namespace OOPaint
             undoStack.Push(redoShape);
             _shapesDI.Add(redoShape);
         }
+        public void ClearHistory()
+        {
+            undoStack.Clear();
+            redoStack.Clear();
+        }
         public UndoRedoService(UIElementCollection shapes)
         {
             this._shapesDI = shapes;

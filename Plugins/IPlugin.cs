@@ -7,10 +7,9 @@ using System.Windows.Shapes;
 
 namespace OOPaint
 {
-    internal interface IPlugin
+    public interface IPlugin
     {
         IMyShapeCreator MyShapeCreator { get; }
-        Shape Shape { get; }
         string Name { get; }
     }
 }
